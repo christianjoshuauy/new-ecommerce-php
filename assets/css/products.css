@@ -1,0 +1,29 @@
+.dashboard {
+  display: block;
+  padding: 0 5vw;
+}
+
+.products {
+  display: grid;
+  margin: 5vh auto;
+  grid-template-columns: repeat(4, 25%);
+  color: #767677;
+}
+
+.product {
+  margin: 0 auto;
+}
+
+.product-info h3 {
+  color: #201c1c;
+  font-weight: 500;
+}
+
+.product-info p {
+  font-size: 12px;
+}
+
+.product-info a {
+  font-size: 12px;
+  text-decoration: none;
+}
