@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>My eCommerce Store</title>
+  <title>Introduction</title>
   <link rel="stylesheet" href="./assets/css/style.css">
   <link rel="stylesheet" href="./assets/css/header.css">
   <link rel="stylesheet" href="./assets/css/footer.css">
@@ -30,47 +30,19 @@
       <input type="text" id="search" class="pre-search-input input-text" name="search" placeholder="Search"></input>
     </div>
   </header>
-
-  <main class="dashboard">
-    <h2>Featured Products</h2>
-    <div class="products">
-      <?php
-      // Connect to the database
-      $servername = "localhost";
-      $username = "root";
-      $password = "";
-      $dbname = "dbecommerce";
-
-      $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-      if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-      }
-
-      // Fetch featured products from the database
-      $sql = "SELECT * FROM product";
-      $result = mysqli_query($conn, $sql);
-
-      if (mysqli_num_rows($result) > 0) {
-        // Display the products
-        while ($row = mysqli_fetch_assoc($result)) {
-          echo "<div class='product'>";
-          echo "<img src='" . $row["productImage"] . "' width='300' height='300'>";
-          echo "<div class='product-info'>";
-          echo "<h3>" . $row["productName"] . "</h3>";
-          echo "<p>" . $row["productDescription"] . "</p>";
-          echo "<p>₱" . $row["productPrice"] . "</p>";
-          echo "<a class='fa fa-pencil' href='edit_product.php?id=" . $row["productID"] . "'></a> |";
-          echo " <a class='fa fa-trash' href='delete_product.php?id=" . $row["productID"] . "'></a>";
-          echo "</div>";
-          echo "</div>";
-        }
-      } else {
-        echo "No products found.";
-      }
-
-      mysqli_close($conn);
-      ?>
+  <main class="profile">
+    <div class="profile-pic">
+      <img src="./assets/img/prof.jpg" alt="Profile Picture" />
+    </div>
+    <div class="intro-container">
+      <h1>Christian Joshua Uy</h1>
+      <p class="intro-text">
+        Hi, I'm Christian Joshua Uy. I'm a 2nd year Bachelor of Science in
+        Computer Science student at CIT-U. I am 20 years old and an aspiring
+        software engineer. In my free time, I enjoy listening to music, watching
+        movies and series, playing video games, and eating. I also like to code
+        whenever I get an idea of anything.
+      </p>
     </div>
   </main>
   <footer class="footer-black">

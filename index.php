@@ -19,8 +19,8 @@
           <li><a href="dashboard.php">Dashboard</a></li>
           <li><a href="#">Clothing</a></li>
           <li><a href="#">Gadgets</a></li>
-          <li><a href="#">Home Appliances</a></li>
           <li><a href="#">Sports</a></li>
+          <li><a href="about_me.php">About Me</a></li>
         </ul>
       </nav>
       <div class="searchbox">
