@@ -39,7 +39,7 @@
       $servername = "localhost";
       $username = "root";
       $password = "";
-      $dbname = "dbecommerce";
+      $dbname = "dbuyecommerce";
 
       $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -59,7 +59,7 @@
           echo "<div class='product-info'>";
           echo "<h3>" . $row["productName"] . "</h3>";
           echo "<p>" . $row["productDescription"] . "</p>";
-          echo "<p>₱" . $row["productPrice"] . "</p>";
+          echo "<p>₱" . number_format($row["productPrice"], 2, '.', ',') . "</p>";
           echo "<a class='fa fa-pencil' href='edit_product.php?id=" . $row["productID"] . "'></a> |";
           echo " <a class='fa fa-trash' href='delete_product.php?id=" . $row["productID"] . "'></a>";
           echo "</div>";
@@ -75,7 +75,7 @@
   </main>
   <footer class="footer-black">
     <div class="footer-fashion">
-      <img src="https://img.freepik.com/free-photo/beautiful-asian-girl-with-glowing-skin-white-teeth-smiling-happy-holding-hands-jeans-pockets-casual-pose-against-white-background-near-blank-advertisement-space-introducing-product_176420-51168.jpg?size=626&ext=jpg&ga=GA1.1.683960251.1682739170&semt=robertav1_2_sidr" alt="fashion" width="400">
+      <img src="./assets/img/dashboard_foot.png" alt="fashion" width="400">
     </div>
     <div class="footer-nav">
       <ul>

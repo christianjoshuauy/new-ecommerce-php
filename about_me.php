@@ -47,7 +47,7 @@
   </main>
   <footer class="footer-black">
     <div class="footer-fashion">
-      <img src="https://img.freepik.com/free-photo/beautiful-asian-girl-with-glowing-skin-white-teeth-smiling-happy-holding-hands-jeans-pockets-casual-pose-against-white-background-near-blank-advertisement-space-introducing-product_176420-51168.jpg?size=626&ext=jpg&ga=GA1.1.683960251.1682739170&semt=robertav1_2_sidr" alt="fashion" width="400">
+      <img src="./assets/img/dashboard_foot.png" alt="fashion" width="400">
     </div>
     <div class="footer-nav">
       <ul>

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>My eCommerce Store</title>
+  <title>RILL</title>
   <link rel="stylesheet" href="./assets/css/style.css">
   <link rel="stylesheet" href="./assets/css/header.css">
   <link rel="stylesheet" href="./assets/css/footer.css">
@@ -45,7 +45,7 @@
   </div>
   <footer class="footer-white">
     <div class="footer-fashion">
-      <img src="https://img.freepik.com/free-photo/portrait-young-man-posing_23-2148884305.jpg?size=626&ext=jpg&ga=GA1.1.683960251.1682739170&semt=robertav1_2_sidr" alt="fashion" width="400">
+      <img src="./assets/img/index_foot.png" alt="fashion" width="400">
     </div>
     <div class="footer-nav">
       <ul>
