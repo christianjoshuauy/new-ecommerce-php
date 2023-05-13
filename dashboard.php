@@ -39,7 +39,7 @@
       $servername = "localhost";
       $username = "root";
       $password = "";
-      $dbname = "dbuyecommerce";
+      $dbname = "dbecommerce";
 
       $conn = mysqli_connect($servername, $username, $password, $dbname);
 

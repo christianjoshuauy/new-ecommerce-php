@@ -1,3 +1,15 @@
+<?php
+// Start a session (if not already started)
+session_start();
+
+// Check if the user is not logged in
+if (!isset($_SESSION['auth'])) {
+  // Redirect the user to the login page
+  header("Location: login.php");
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
