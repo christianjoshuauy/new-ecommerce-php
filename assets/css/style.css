@@ -46,3 +46,23 @@ body {
 button {
   cursor: pointer;
 }
+
+.error-message {
+  background: rgba(250, 75, 75, 0.877);
+  text-align: center;
+  margin-bottom: 2vh;
+  padding: 10px;
+  border-radius: 10px;
+  animation: showerror 1s ease;
+}
+
+@keyframes showerror {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

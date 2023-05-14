@@ -29,7 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: index.php");
             exit();
         } else {
-            echo "Registration failed.";
+            header("Location: login.php");
+            $_SESSION['error'] = "Registration failed.";
             exit();
         }
     } elseif (isset($_POST["login"])) {
@@ -49,7 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: index.php");
             exit();
         } else {
-            echo "Invalid username or password.";
+            header("Location: login.php");
+            $_SESSION['error'] = "Invalid username or password.";
             exit();
         }
     } elseif (isset($_POST["logout"])) {
@@ -71,7 +73,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: profile.php");
             exit();
         } else {
-            echo "Update profile failed.";
+            header("Location: profile.php");
+            $_SESSION['error'] = "Update profile failed.";
             exit();
         }
     }

@@ -31,6 +31,12 @@ if (isset($_SESSION['auth']) && $_SESSION['auth']) {
         <main class="auth">
             <div class="card">
                 <div class="card-start">
+                    <?php
+                    if (isset($_SESSION['error'])) {
+                        echo "<p class='error-message'>" . $_SESSION['error'] . "</p>";
+                        unset($_SESSION['error']);
+                    }
+                    ?>
                     <h3 id="auth-title">Register</h3>
                     <form id="register-form" method="POST" action="auth.php">
                         <input type="text" name="firstname" placeholder="First Name">
