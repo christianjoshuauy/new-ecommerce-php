@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt->execute()) {
             $_SESSION['auth'] = true;
+            $_SESSION['username'] = $username;
             header("Location: index.php");
             exit();
         } else {
@@ -43,12 +44,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = $result->fetch_assoc();
 
         if ($user) {
-            // Successful login
             $_SESSION['auth'] = true;
+            $_SESSION['username'] = $username;
             header("Location: index.php");
             exit();
         } else {
             echo "Invalid username or password.";
+            exit();
+        }
+    } elseif (isset($_POST["logout"])) {
+        session_destroy();
+        header("Location: login.php");
+        exit();
+    } elseif (isset($_POST["update"])) {
+        $firstname = $_POST["firstname"];
+        $lastname = $_POST["lastname"];
+        $username = $_POST["username"];
+        $password = hash('sha256', $_POST["password"]);
+
+        $sql = "UPDATE tbluseraccount SET username = ?, password = ?, firstname = ?, lastname = ? WHERE username = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssss", $username, $password, $firstname, $lastname, $username);
+
+        if ($stmt->execute()) {
+            $_SESSION['username'] = $username;
+            header("Location: profile.php");
+            exit();
+        } else {
+            echo "Update profile failed.";
             exit();
         }
     }

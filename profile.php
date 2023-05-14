@@ -2,11 +2,11 @@
 <html>
 
 <head>
-  <title>Introduction</title>
+  <title>Profile</title>
   <link rel="stylesheet" href="./assets/css/style.css">
   <link rel="stylesheet" href="./assets/css/header.css">
   <link rel="stylesheet" href="./assets/css/footer.css">
-  <link rel="stylesheet" href="./assets/css/products.css">
+  <link rel="stylesheet" href="./assets/css/profile.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="./assets/js/profile-menu.js"></script>
 </head>
@@ -45,17 +45,40 @@
   </header>
   <main class="profile">
     <div class="profile-pic">
-      <img src="./assets/img/prof.jpg" alt="Profile Picture" />
+      <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile Picture" />
     </div>
-    <div class="intro-container">
-      <h1>Christian Joshua Uy</h1>
-      <p class="intro-text">
-        Hi, I'm Christian Joshua Uy. I'm a 2nd year Bachelor of Science in
-        Computer Science student at CIT-U. I am 20 years old and an aspiring
-        software engineer. In my free time, I enjoy listening to music, watching
-        movies and series, playing video games, and eating. I also like to code
-        whenever I get an idea of anything.
-      </p>
+    <div class="form-container">
+      <?php
+      session_start();
+
+      $servername = "localhost";
+      $username = "root";
+      $password = "";
+      $dbname = "dbecommerce";
+
+      $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+      $sql = "SELECT firstname, lastname, username, password FROM tbluseraccount WHERE username = ?";
+      $stmt = $conn->prepare($sql);
+      $username = $_SESSION['username'];
+      $stmt->bind_param("s", $username);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      $user = $result->fetch_assoc();
+
+      if ($user) {
+        echo '<h1>' . $user['firstname'] . ' ' . $user['lastname'] . '</h1>';
+        echo '<form method="POST" action="auth.php">';
+        echo '<input type="text" name="firstname" value="' . $user['firstname'] . '" placeholder="First Name">';
+        echo '<input type="text" name="lastname" value="' . $user['lastname'] . '" placeholder="Last Name">';
+        echo '<input type="text" name="username" value="' . $user['username'] . '" placeholder="Username">';
+        echo '<input type="password" name="password" placeholder="Password">';
+        echo '<button type="submit" name="update" class="edit-button">Save Changes</button>';
+        echo '</form>';
+      } else {
+        echo 'User not found.';
+      }
+      ?>
     </div>
   </main>
   <footer class="footer-black">
