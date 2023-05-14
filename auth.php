@@ -19,6 +19,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username = $_POST["username"];
         $password = hash('sha256', $_POST["password"]);
 
+        $sql = "SELECT COUNT(*) FROM tbluseraccount WHERE username = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_row();
+        $userCount = $row[0];
+
+        if ($userCount > 0) {
+            $_SESSION['error'] = "Username already exists.";
+            header("Location: login.php");
+            exit();
+        }
+
         $sql = "INSERT INTO tbluseraccount (username, password, firstname, lastname) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssss", $username, $password, $firstname, $lastname);
@@ -63,6 +77,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $lastname = $_POST["lastname"];
         $username = $_POST["username"];
         $password = hash('sha256', $_POST["password"]);
+
+        $sql = "SELECT COUNT(*) FROM tbluseraccount WHERE username = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_row();
+        $userCount = $row[0];
+
+        if ($userCount > 0) {
+            $_SESSION['error'] = "Username already exists.";
+            header("Location: profile.php");
+            exit();
+        }
 
         $sql = "UPDATE tbluseraccount SET username = ?, password = ?, firstname = ?, lastname = ? WHERE username = ?";
         $stmt = $conn->prepare($sql);
