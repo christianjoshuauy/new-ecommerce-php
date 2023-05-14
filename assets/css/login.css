@@ -1,6 +1,5 @@
 .auth-background {
-  background: url("https://images.unsplash.com/photo-1618481211937-0bcd1f57c8e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80")
-    no-repeat center center/cover;
+  background: url("../img/auth-background.jpg") no-repeat center center/cover;
   height: 100vh;
 }
 

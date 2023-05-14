@@ -99,3 +99,41 @@
 .footer-black .fa:hover {
   background: #fff;
 }
+
+@media (max-width: 768px) {
+  .footer-white,
+  .footer-black {
+    height: 15vh;
+  }
+
+  .footer-fashion {
+    height: 12vh;
+  }
+
+  .footer-white .footer-nav ul li,
+  .footer-black .footer-nav ul li {
+    margin-bottom: 0.5vh;
+    font-size: 12px;
+  }
+
+  .footer-white .footer-nav ul li:first-child,
+  .footer-black .footer-nav ul li:first-child {
+    font-size: 14px;
+  }
+
+  .footer-nav {
+    margin-left: 3vw;
+  }
+
+  .footer-black .fa {
+    padding: 3px;
+  }
+
+  .fa-facebook {
+    width: 20px;
+  }
+
+  .copyright {
+    font-size: 10px;
+  }
+}
