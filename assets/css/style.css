@@ -47,6 +47,37 @@ button {
   cursor: pointer;
 }
 
+.add-container {
+  height: 64.5vh;
+  text-align: center;
+}
+
+.add-container h1 {
+  margin-bottom: 2vh;
+}
+
+.add-container form input {
+  border-color: #4d4d4d7e;
+}
+
+.button-add-product {
+  width: 100%;
+  margin-top: 2vh;
+  padding: 1vh 1.5vw;
+  border-radius: 100px;
+  border: 1px solid #201c1c;
+  background: transparent;
+  color: #201c1c;
+  text-transform: uppercase;
+  letter-spacing: 0.1vw;
+  transition: all 0.3s ease;
+}
+
+.button-add-product:hover {
+  background-color: #201c1c;
+  color: #fff;
+}
+
 .error-message {
   background: rgba(250, 75, 75, 0.877);
   text-align: center;

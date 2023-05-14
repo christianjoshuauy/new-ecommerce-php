@@ -1,8 +1,15 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['auth']) || !$_SESSION['auth']) {
+  header("Location: login.php");
+  exit();
+}
+
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "dbuyecommerce";
+$dbname = "dbecommerce";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -33,39 +40,107 @@ mysqli_close($conn);
 <html>
 
 <head>
-  <title>Online Ecommerce System</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Add Product</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/header.css">
+  <link rel="stylesheet" href="./assets/css/footer.css">
+  <link rel="stylesheet" href="./assets/css/profile.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="./assets/js/profile-menu.js"></script>
 </head>
 
 <body>
-  <div class="container">
-    <h1>Online Ecommerce System</h1>
+  <header>
+    <img src="./assets/img/logo.png" class="logo" alt="RILL" width="150">
     <nav>
       <ul>
         <li><a href="index.php">Home</a></li>
-        <li><a href="register.php">Register</a></li>
-        <li><a href="display.php">View Sellers</a></li>
-        <li><a href="payment.php">Add Payment Method</a></li>
-        <li><a href="displayPayment.php">View Payment Methods</a></li>
+        <li><a href="dashboard.php">Dashboard</a></li>
+        <li><a href="#">Clothing</a></li>
+        <li><a href="#">Gadgets</a></li>
+        <li><a href="#">Sports</a></li>
+        <li><a href="about_me.php">About Me</a></li>
       </ul>
     </nav>
+    <div class="searchbox">
+      <svg viewBox="0 0 24 24" role="img" width="30px" height="30px" fill="none">
+        <path stroke="#201c1c" stroke-width="1.5" d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853"></path>
+      </svg>
+      <input type="text" id="search" class="pre-search-input input-text" name="search" placeholder="Search"></input>
+      <div class="profile-container">
+        <div class="profile-circle" onclick="toggleMenu()">
+          <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile pic">
+        </div>
+        <div id="profile-menu" class="hidden">
+          <ul>
+            <li onclick="window.location.href = 'profile.php';">Profile</li>
+            <hr>
+            <li onclick="signOut()">Sign Out</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="add-container">
+    <h1>Add Product</h1>
     <form method="post">
-      <label for="sfname">Product Name:</label>
-      <input type="text" name="productName" required>
-
-      <label for="sfname">Product Description:</label>
-      <input type="text" name="productDescription" required>
-
-      <label for="slname">Product Image:</label>
-      <input type="text" name="productImage" required>
-
-      <label for="sphonenumber">Price:</label>
-      <input type="number" name="productPrice" required>
-
-      <button type="submit">Add Product</button>
+      <input type="text" name="productName" placeholder="Product Name" required>
+      <input type="text" name="productDescription" placeholder="Product Description" required>
+      <input type="text" name="productImage" placeholder="Product Image Link" required>
+      <input type="number" name="productPrice" placeholder="Product Price" required>
+      <button type="submit" class="button-add-product">Add Product</button>
     </form>
   </div>
-  <footer>Christian Joshua Uy BSCS-2 F2</footer>
+  <footer class="footer-black">
+    <div class="footer-fashion">
+      <img src="./assets/img/dashboard_foot.png" alt="fashion" width="400">
+    </div>
+    <div class="footer-nav">
+      <ul>
+        <li>ABOUT US</li>
+        <li>Find a Store</li>
+        <li>Order Status</li>
+        <li>Delivery</li>
+        <li>Get Help</li>
+      </ul>
+    </div>
+    <div class="footer-nav">
+      <ul>
+        <li>CLOTHING</li>
+        <li>Men's Apparel</li>
+        <li>Women's Apparel</li>
+        <li>Kids' Apparel</li>
+        <li>Sale</li>
+      </ul>
+    </div>
+    <div class="footer-nav">
+      <ul>
+        <li>GADGETS</li>
+        <li>Laptops</li>
+        <li>Computers</li>
+        <li>Mobile Phones</li>
+        <li>Accessories</li>
+      </ul>
+    </div>
+    <div class="footer-nav">
+      <ul>
+        <li>SPORTS</li>
+        <li>Sport Clothes</li>
+        <li>Shoes</li>
+        <li>Sport Gears</li>
+        <li>Accessories</li>
+      </ul>
+    </div>
+    <div class="footer-nav">
+      <ul>
+        <li>FOLLOW US</li>
+        <li><a href="#" class="fa fa-facebook"></a></li>
+        <li><a href="#" class="fa fa-twitter"></a></li>
+        <li><a href="#" class="fa fa-instagram"></a></li>
+      </ul>
+    </div>
+    <p class="copyright">&copy; RILL Philippines 2023</p>
+  </footer>
 </body>
 
 </html>
