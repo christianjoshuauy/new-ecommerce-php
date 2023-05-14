@@ -100,20 +100,20 @@
   background: #fff;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1500px) {
   .footer-white,
   .footer-black {
-    height: 15vh;
+    height: 20vh;
   }
 
   .footer-fashion {
-    height: 12vh;
+    height: 20vh;
   }
 
   .footer-white .footer-nav ul li,
   .footer-black .footer-nav ul li {
     margin-bottom: 0.5vh;
-    font-size: 12px;
+    font-size: 15px;
   }
 
   .footer-white .footer-nav ul li:first-child,
@@ -134,6 +134,6 @@
   }
 
   .copyright {
-    font-size: 10px;
+    font-size: 13px;
   }
 }
