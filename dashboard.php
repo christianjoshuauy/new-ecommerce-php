@@ -30,7 +30,7 @@ if (!isset($_SESSION['auth']) || !$_SESSION['auth']) {
         <li><a href="#">Clothing</a></li>
         <li><a href="#">Gadgets</a></li>
         <li><a href="#">Sports</a></li>
-        <li><a href="about_me.php">About Me</a></li>
+        <li><a href="about_me.php">About Us</a></li>
       </ul>
     </nav>
     <div class="searchbox">
@@ -54,7 +54,30 @@ if (!isset($_SESSION['auth']) || !$_SESSION['auth']) {
   </header>
 
   <main class="dashboard">
-    <h2>Featured Products</h2>
+    <h2>
+      Featured Products
+      <?php
+      $servername = "localhost";
+      $username = "root";
+      $password = "";
+      $dbname = "dbecommerce";
+
+      $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+      if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+      }
+
+      $sql = "SELECT COUNT(*) as total FROM product";
+      $result = mysqli_query($conn, $sql);
+
+      if (mysqli_num_rows($result) > 0) {
+        echo mysqli_fetch_assoc($result)['total'];
+      } else {
+        echo "0";
+      }
+      ?>
+    </h2>
     <div class="products">
       <?php
       $servername = "localhost";
