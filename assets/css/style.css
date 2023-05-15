@@ -82,6 +82,8 @@ button {
   background: rgba(250, 75, 75, 0.877);
   text-align: center;
   margin-bottom: 2vh;
+  margin-left: auto;
+  margin-right: auto;
   padding: 10px;
   border-radius: 10px;
   animation: showerror 1s ease;

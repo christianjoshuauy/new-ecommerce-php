@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_row();
         $userCount = $row[0];
 
-        if ($userCount > 0) {
+        if ($userCount > 1) {
             $_SESSION['error'] = "Username already exists.";
             header("Location: profile.php");
             exit();
@@ -94,15 +94,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $sql = "UPDATE tbluseraccount SET username = ?, password = ?, firstname = ?, lastname = ? WHERE username = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssss", $username, $password, $firstname, $lastname, $username);
+        $stmt->bind_param("sssss", $username, $password, $firstname, $lastname, $_SESSION['username']);
 
         if ($stmt->execute()) {
             $_SESSION['username'] = $username;
             header("Location: profile.php");
             exit();
         } else {
-            header("Location: profile.php");
             $_SESSION['error'] = "Update profile failed.";
+            header("Location: profile.php");
             exit();
         }
     }

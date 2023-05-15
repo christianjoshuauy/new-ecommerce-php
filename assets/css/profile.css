@@ -1,4 +1,6 @@
 .form-container {
+  width: 20vw;
+  margin: auto;
   margin-top: 2vh;
   text-align: center;
 }

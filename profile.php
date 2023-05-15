@@ -58,7 +58,14 @@ if (!isset($_SESSION['auth']) || !$_SESSION['auth']) {
     </div>
     <div class="form-container">
       <?php
-      session_start();
+      if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+      }
+
+      if (isset($_SESSION['error'])) {
+        echo "<p class='error-message'>" . $_SESSION['error'] . "</p>";
+        unset($_SESSION['error']);
+      }
 
       $servername = "localhost";
       $username = "root";
@@ -78,10 +85,10 @@ if (!isset($_SESSION['auth']) || !$_SESSION['auth']) {
       if ($user) {
         echo '<h1>' . $user['firstname'] . ' ' . $user['lastname'] . '</h1>';
         echo '<form method="POST" action="auth.php">';
-        echo '<input type="text" name="firstname" value="' . $user['firstname'] . '" placeholder="First Name">';
-        echo '<input type="text" name="lastname" value="' . $user['lastname'] . '" placeholder="Last Name">';
-        echo '<input type="text" name="username" value="' . $user['username'] . '" placeholder="Username">';
-        echo '<input type="password" name="password" placeholder="Password">';
+        echo '<input type="text" name="firstname" value="' . $user['firstname'] . '" placeholder="First Name" required>';
+        echo '<input type="text" name="lastname" value="' . $user['lastname'] . '" placeholder="Last Name" required>';
+        echo '<input type="text" name="username" value="' . $user['username'] . '" placeholder="Username" required>';
+        echo '<input type="password" name="password" placeholder="Password" required>';
         echo '<button type="submit" name="update" class="edit-button">Save Changes</button>';
         echo '</form>';
       } else {
