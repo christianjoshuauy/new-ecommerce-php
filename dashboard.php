@@ -18,6 +18,7 @@ if (!isset($_SESSION['auth']) || !$_SESSION['auth']) {
   <link rel="stylesheet" href="./assets/css/products.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="./assets/js/profile-menu.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -84,11 +85,6 @@ if (!isset($_SESSION['auth']) || !$_SESSION['auth']) {
       <?php
       $sql = "SELECT * FROM product";
       $result = mysqli_query($conn, $sql);
-
-      function deleteProduct()
-      {
-
-      }
 
       if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {

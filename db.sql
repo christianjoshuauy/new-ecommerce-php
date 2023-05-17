@@ -2,8 +2,10 @@ CREATE TABLE product (
     productID SERIAL PRIMARY KEY NOT NULL,
     productName VARCHAR(50),
     productDescription VARCHAR(100),
+    categoryID BIGINT,
     productImage VARCHAR(300),
-    productPrice DOUBLE PRECISION
+    productPrice DOUBLE PRECISION,
+    CONSTRAINT fk_catID FOREIGN KEY (categoryID) REFERENCES category(categoryID)
 );
 
 INSERT INTO product (productName, productDescription, productImage, productPrice) VALUES
@@ -20,4 +22,14 @@ CREATE TABLE tbluseraccount (
     password VARCHAR(255) NOT NULL,
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL
+);
+
+INSERT INTO `tbluseraccount` (`userid`, `username`, `password`, `firstname`, `lastname`) VALUES
+(1, 'jreid22', '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824', 'James', 'Reid'),
+(2, '', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', '', '');
+
+CREATE TABLE category (
+    categoryID SERIAL PRIMARY KEY NOT NULL,
+    categoryName VARCHAR(50),
+    categoryDescription VARCHAR(300)
 );
