@@ -43,9 +43,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (mysqli_query($conn, $sql)) {
       echo "Product updated successfully";
+      header('Location: dashboard.php');
     } else {
       echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
+  }
+} elseif (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($_GET['deleteID'])) {
+  $deleteID = $_GET['deleteID'];
+
+  $sql = "DELETE FROM product WHERE productID = $deleteID";
+
+  if (mysqli_query($conn, $sql)) {
+    header('Location: dashboard.php');
+  } else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
   }
 }
 
@@ -133,6 +144,8 @@ mysqli_close($conn);
       echo '<button type="submit" name="addproduct" class="button-add-product">Add Product</button>';
       echo '</form>';
     }
+
+    mysqli_close($conn);
     ?>
 
 

@@ -99,7 +99,7 @@ if (!isset($_SESSION['auth']) || !$_SESSION['auth']) {
           echo "<p>" . $row["productDescription"] . "</p>";
           echo "<p>₱" . number_format($row["productPrice"], 2, '.', ',') . "</p>";
           echo "<a class='fa fa-pencil' href='addproduct.php?id=" . $row["productID"] . "'></a> |";
-          echo " <a class='fa fa-trash' href='addproduct.php?id=" . $row["productID"] . "'></a>";
+          echo " <a class='fa fa-trash' name='deleteproduct' href='addproduct.php?deleteID=" . $row["productID"] . "'></a>";
           echo "</div>";
           echo "</div>";
         }
