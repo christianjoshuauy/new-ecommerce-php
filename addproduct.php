@@ -18,18 +18,34 @@ if (!$conn) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $productName = $_POST['productName'];
-  $productDescription = $_POST['productDescription'];
-  $productImage = $_POST['productImage'];
-  $productPrice = $_POST['productPrice'];
+  if (isset($_POST["addproduct"])) {
+    $productName = $_POST['productName'];
+    $productDescription = $_POST['productDescription'];
+    $productImage = $_POST['productImage'];
+    $productPrice = $_POST['productPrice'];
 
-  $sql = "INSERT INTO product (productName, productDescription, productImage, productPrice)
-			VALUES ('$productName', '$productDescription', '$productImage', '$productPrice')";
+    $sql = "INSERT INTO product (productName, productDescription, productImage, productPrice)
+        VALUES ('$productName', '$productDescription', '$productImage', '$productPrice')";
 
-  if (mysqli_query($conn, $sql)) {
-    echo "New product added successfully";
-  } else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    if (mysqli_query($conn, $sql)) {
+      echo "New product added successfully";
+    } else {
+      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+  } elseif (isset($_POST["updateproduct"])) {
+    $productID = $_POST['productID'];
+    $productName = $_POST['productName'];
+    $productDescription = $_POST['productDescription'];
+    $productImage = $_POST['productImage'];
+    $productPrice = $_POST['productPrice'];
+
+    $sql = "UPDATE product SET productName = '$productName', productDescription = '$productDescription', productImage = '$productImage', productPrice = '$productPrice' WHERE productID = $productID";
+
+    if (mysqli_query($conn, $sql)) {
+      echo "Product updated successfully";
+    } else {
+      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
   }
 }
 
@@ -64,12 +80,14 @@ mysqli_close($conn);
     </nav>
     <div class="searchbox">
       <svg viewBox="0 0 24 24" role="img" width="30px" height="30px" fill="none">
-        <path stroke="#201c1c" stroke-width="1.5" d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853"></path>
+        <path stroke="#201c1c" stroke-width="1.5"
+          d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853">
+        </path>
       </svg>
       <input type="text" id="search" class="pre-search-input input-text" name="search" placeholder="Search"></input>
       <div class="profile-container">
         <div class="profile-circle" onclick="toggleMenu()">
-          <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="profile pic">
+          <img src="./assets/img/profile-pic.png" alt="profile pic">
         </div>
         <div id="profile-menu" class="hidden">
           <ul>
@@ -82,14 +100,42 @@ mysqli_close($conn);
     </div>
   </header>
   <div class="add-container">
-    <h1>Add Product</h1>
-    <form method="post">
-      <input type="text" name="productName" placeholder="Product Name" required>
-      <input type="text" name="productDescription" placeholder="Product Description" required>
-      <input type="text" name="productImage" placeholder="Product Image Link" required>
-      <input type="number" name="productPrice" placeholder="Product Price" required>
-      <button type="submit" class="button-add-product">Add Product</button>
-    </form>
+    <?php
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+    if (isset($_GET['id'])) {
+      $prodId = $_GET['id'];
+      $sql = "SELECT * FROM product WHERE productID = $prodId";
+      $result = mysqli_query($conn, $sql);
+      $row = mysqli_fetch_assoc($result);
+
+      $productID = $row['productID'];
+      $productName = $row['productName'];
+      $productDescription = $row['productDescription'];
+      $productImage = $row['productImage'];
+      $productPrice = $row['productPrice'];
+
+      echo '<h1>Edit Product</h1>';
+      echo '<form method="post">';
+      echo '<input type="hidden" name="productID" value="' . $prodId . '">';
+      echo '<input type="text" name="productName" placeholder="Product Name" value="' . $productName . '" required>';
+      echo '<input type="text" name="productDescription" placeholder="Product Description" value="' . $productDescription . '" required>';
+      echo '<input type="text" name="productImage" placeholder="Product Image Link" value="' . $productImage . '" required>';
+      echo '<input type="number" name="productPrice" placeholder="Product Price" value="' . $productPrice . '" required>';
+      echo '<button type="submit" name="updateproduct" class="button-add-product">Edit Product</button>';
+      echo '</form>';
+    } else {
+      echo '<h1>Add Product</h1>';
+      echo '<form method="post">';
+      echo '<input type="text" name="productName" placeholder="Product Name" required>';
+      echo '<input type="text" name="productDescription" placeholder="Product Description" required>';
+      echo '<input type="text" name="productImage" placeholder="Product Image Link" required>';
+      echo '<input type="number" name="productPrice" placeholder="Product Price" required>';
+      echo '<button type="submit" name="addproduct" class="button-add-product">Add Product</button>';
+      echo '</form>';
+    }
+    ?>
+
+
   </div>
   <footer class="footer-black">
     <div class="footer-fashion">
