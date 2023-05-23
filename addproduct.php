@@ -23,14 +23,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $productDescription = $_POST['productDescription'];
     $productImage = $_POST['productImage'];
     $productPrice = $_POST['productPrice'];
+    $productCategory = $_POST['productCategory'];
 
     $sql = "INSERT INTO product (productName, productDescription, productImage, productPrice)
-        VALUES ('$productName', '$productDescription', '$productImage', '$productPrice')";
+        VALUES (?, ?, ?, ?)";
 
-    if (mysqli_query($conn, $sql)) {
-      echo "New product added successfully";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "sssd", $productName, $productDescription, $productImage, $productPrice);
+
+
+    if (mysqli_stmt_execute($stmt)) {
+      $productID = mysqli_insert_id($conn);
+      $sql = "INSERT INTO product_category (productID, categoryID)
+        VALUES ($productID, $productCategory)";
+      if (mysqli_query($conn, $sql)) {
+        $_SESSION['success'] = "New product added successfully";
+      } else {
+        $_SESSION['error'] = "Error inserting product category: " . mysqli_error($conn);
+      }
     } else {
-      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+      $_SESSION['error'] = "Error inserting product: " . mysqli_error($conn);
     }
   } elseif (isset($_POST["updateproduct"])) {
     $productID = $_POST['productID'];
@@ -38,14 +50,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $productDescription = $_POST['productDescription'];
     $productImage = $_POST['productImage'];
     $productPrice = $_POST['productPrice'];
+    $productCategory = $_POST['productCategory'];
 
     $sql = "UPDATE product SET productName = '$productName', productDescription = '$productDescription', productImage = '$productImage', productPrice = '$productPrice' WHERE productID = $productID";
 
     if (mysqli_query($conn, $sql)) {
-      echo "Product updated successfully";
-      header('Location: dashboard.php');
+      $sql = "UPDATE product_category SET categoryID = '$productCategory' WHERE productID = $productID";
+      if (mysqli_query($conn, $sql)) {
+        $_SESSION['success'] = "Product updated successfully";
+        header('Location: dashboard.php');
+      } else {
+        $_SESSION['error'] = "Error updating product category: " . mysqli_error($conn);
+      }
     } else {
-      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+      $_SESSION['error'] = "Error updating product: " . mysqli_error($conn);
     }
   }
 } elseif (($_SERVER['REQUEST_METHOD'] == 'GET') && isset($_GET['deleteID'])) {
@@ -54,9 +72,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $sql = "DELETE FROM product WHERE productID = $deleteID";
 
   if (mysqli_query($conn, $sql)) {
-    header('Location: dashboard.php');
+    $sql = "DELETE FROM product_category WHERE productID = $deleteID";
+    if (mysqli_query($conn, $sql)) {
+      $_SESSION['success'] = "Product deleted successfully";
+      header('Location: dashboard.php');
+    } else {
+      $_SESSION['error'] = "Error deleting product category: " . mysqli_error($conn);
+    }
   } else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    $_SESSION['error'] = "Error deleting product: " . mysqli_error($conn);
   }
 }
 
@@ -91,8 +115,7 @@ mysqli_close($conn);
     </nav>
     <div class="searchbox">
       <svg viewBox="0 0 24 24" role="img" width="30px" height="30px" fill="none">
-        <path stroke="#201c1c" stroke-width="1.5"
-          d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853">
+        <path stroke="#201c1c" stroke-width="1.5" d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853">
         </path>
       </svg>
       <input type="text" id="search" class="pre-search-input input-text" name="search" placeholder="Search"></input>
@@ -113,6 +136,13 @@ mysqli_close($conn);
   <div class="add-container">
     <?php
     $conn = mysqli_connect($servername, $username, $password, $dbname);
+    if (isset($_SESSION['error'])) {
+      echo "<p class='error-message'>" . $_SESSION['error'] . "</p>";
+      unset($_SESSION['error']);
+    } else if (isset($_SESSION['success'])) {
+      echo "<p class='success-message'>" . $_SESSION['success'] . "</p>";
+      unset($_SESSION['success']);
+    }
     if (isset($_GET['id'])) {
       $prodId = $_GET['id'];
       $sql = "SELECT * FROM product WHERE productID = $prodId";
@@ -125,6 +155,13 @@ mysqli_close($conn);
       $productImage = $row['productImage'];
       $productPrice = $row['productPrice'];
 
+      $sql = "SELECT * FROM product_category WHERE productID = $prodId";
+      $result = mysqli_query($conn, $sql);
+      $row = mysqli_fetch_assoc($result);
+
+      $categoryID = $row['categoryID'];
+
+
       echo '<h1>Edit Product</h1>';
       echo '<form method="post">';
       echo '<input type="hidden" name="productID" value="' . $prodId . '">';
@@ -132,6 +169,12 @@ mysqli_close($conn);
       echo '<input type="text" name="productDescription" placeholder="Product Description" value="' . $productDescription . '" required>';
       echo '<input type="text" name="productImage" placeholder="Product Image Link" value="' . $productImage . '" required>';
       echo '<input type="number" name="productPrice" placeholder="Product Price" value="' . $productPrice . '" required>';
+      echo '<select name="productCategory" required>';
+      echo '<option value="1" ' . ($categoryID == 1 ? 'selected' : '') . '>Shoes</option>';
+      echo '<option value="2" ' . ($categoryID == 2 ? 'selected' : '') . '>Clothes</option>';
+      echo '<option value="3" ' . ($categoryID == 3 ? 'selected' : '') . '>Accessories</option>';
+      echo '<option value="4" ' . ($categoryID == 4 ? 'selected' : '') . '>Gadgets</option>';
+      echo '</select>';
       echo '<button type="submit" name="updateproduct" class="button-add-product">Edit Product</button>';
       echo '</form>';
     } else {
@@ -141,6 +184,12 @@ mysqli_close($conn);
       echo '<input type="text" name="productDescription" placeholder="Product Description" required>';
       echo '<input type="text" name="productImage" placeholder="Product Image Link" required>';
       echo '<input type="number" name="productPrice" placeholder="Product Price" required>';
+      echo '<select name="productCategory" required>';
+      echo '<option value="1">Shoes</option>';
+      echo '<option value="2">Clothes</option>';
+      echo '<option value="3">Accessories</option>';
+      echo '<option value="4">Gadgets</option>';
+      echo '</select>';
       echo '<button type="submit" name="addproduct" class="button-add-product">Add Product</button>';
       echo '</form>';
     }

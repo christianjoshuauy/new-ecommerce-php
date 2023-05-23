@@ -112,6 +112,11 @@ form input:nth-child(4) {
   animation-fill-mode: forwards;
 }
 
+form select {
+  animation: slideup 1s ease 0.8s;
+  animation-fill-mode: forwards;
+}
+
 @keyframes slideup {
   0% {
     opacity: 0;
